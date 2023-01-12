@@ -11,5 +11,5 @@ DELAY 200
 STRING cmd
 ENTER
 DELAY 200
-STRING echo pwned
+STRING powershell -w h -NoP -Ep Bypass -command "echo pwned"
 ENTER

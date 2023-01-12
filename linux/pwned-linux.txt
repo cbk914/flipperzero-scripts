@@ -1,4 +1,4 @@
-REM     Title: Pwned-Win
+REM     Title: Pwned-Linux
 
 REM     Author: cbk914
 
@@ -8,5 +8,5 @@ REM     Target: Linux
 DELAY 1000
 GUI r
 DELAY 200
-STRING powershell.exe -c "Write-Host 'Pwned'"
+STRING bash && echo "Pwned"
 ENTER

