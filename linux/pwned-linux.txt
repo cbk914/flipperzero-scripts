@@ -1,3 +1,10 @@
+REM     Title: Pwned-Win
+
+REM     Author: cbk914
+
+REM     Description: This payload is meant to show 'Pwned' on the target
+
+REM     Target: Linux
 DELAY 1000
 GUI r
 DELAY 200

