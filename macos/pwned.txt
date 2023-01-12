@@ -1,0 +1,5 @@
+DELAY 1000
+GUI r
+DELAY 200
+STRING echo 'Pwned'
+ENTER
