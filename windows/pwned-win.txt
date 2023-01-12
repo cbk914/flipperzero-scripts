@@ -8,5 +8,8 @@ REM     Target: Windows 10, 11
 DELAY 1000
 GUI r
 DELAY 200
-STRING powershell.exe -c "Write-Host 'Pwned'"
+STRING cmd
+ENTER
+DELAY 200
+STRING echo pwned
 ENTER
